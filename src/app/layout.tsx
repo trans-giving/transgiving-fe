@@ -58,7 +58,7 @@ const queryClient = new QueryClient({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <div lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -87,6 +87,6 @@ export default function RootLayout({ children }) {
           </WagmiProvider>
         </ReduxProvider>
       </body>
-    </html>
+    </div>
   );
 }
