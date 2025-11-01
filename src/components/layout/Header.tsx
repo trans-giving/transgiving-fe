@@ -8,14 +8,54 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+import { useEffect, useState } from 'react';
+import { loginWallet } from '@/api/auth';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setUser, setUserAddress } from '@/store/slices/userSlice';
 
 
 export default function Header() {
-  // const { account, balance, isConnecting, connectWallet, disconnect } = useWeb3();
-  const account = useAccount()
-
+  const account = useAccount();
+  const dispatch = useAppDispatch();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const user = useAppSelector((state) => state.user);
   console.log('account: ', account);
+  console.log('user: ', user);
   
+
+  // Handle wallet login when account connects
+  useEffect(() => {
+    const handleLogin = async () => {
+      if (account.address && account.isConnected && !isLoggingIn) {
+        setIsLoggingIn(true);
+        try {
+          console.log('ngu');
+          
+          const response = await loginWallet({ userAddress: account.address });
+
+          // Save token to localStorage
+          localStorage.setItem('authToken', response.accessToken);
+
+          // Update Redux store with user data
+          dispatch(setUser({
+            userAddress: response.user.userAddress,
+            userName: response.user.userName || '',
+            email: response.user.email || '',
+            avatar: response.user.avatar || '',
+            accessToken: response.accessToken
+          }));
+
+          console.log('Login successful:', response);
+        } catch (error) {
+          console.error('Login failed:', error);
+        } finally {
+          setIsLoggingIn(false);
+        }
+      }
+    };
+
+    handleLogin();
+  }, [account.address, account.isConnected, dispatch]);
 
   const formatAddress = (address) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;

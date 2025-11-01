@@ -5,6 +5,7 @@ export interface UserState {
   avatar: string;
   userName: string;
   email: string;
+  accessToken: string;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
   avatar: '',
   userName: '',
   email: '',
+  accessToken: ''
 };
 
 const userSlice = createSlice({
@@ -23,6 +25,7 @@ const userSlice = createSlice({
       state.avatar = action.payload.avatar;
       state.userName = action.payload.userName;
       state.email = action.payload.email;
+      state.accessToken = action.payload.accessToken
     },
     setUserAddress: (state, action: PayloadAction<string>) => {
       state.userAddress = action.payload;
