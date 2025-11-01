@@ -16,15 +16,20 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 export const transGivTheme = createTheme({
   palette: {
     mode: 'light',
-    teal50: '#f0fdfa',
-    teal100: '#ccfbf1',
-    teal200: '#99f6e4',
-    teal300: '#5eead4',
-    teal400: '#2dd4bf', /* primary */
-    teal500: '#02A9B6',  
-    teal600: '#0d9488', /* primary */
-    teal700: '#0f766e',
-    teal800: '#115e59',
-    teal900: '#134e4a',
+    primary: {
+      main: '#02A9B6', // your teal500
+    },
+    ...({
+      teal50: '#f0fdfa',
+      teal100: '#ccfbf1',
+      teal200: '#99f6e4',
+      teal300: '#5eead4',
+      teal400: '#2dd4bf',
+      teal500: '#02A9B6',
+      teal600: '#0d9488',
+      teal700: '#0f766e',
+      teal800: '#115e59',
+      teal900: '#134e4a',
+    } as any),
   },
 });
